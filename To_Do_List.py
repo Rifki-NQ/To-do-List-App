@@ -1,7 +1,14 @@
 import os
 import pandas as pd
 
-df = pd.read_csv("lists.csv")
+#try reading the csv
+try:
+    df = pd.read_csv("lists.csv")
+#add the headers if the file is completely empty
+except:
+    df = pd.DataFrame(columns=["time", "plan"])
+    df.to_csv("lists.csv", index=False)
+    df = pd.read_csv("lists.csv")
 
 def FirstMenu():
     if df.empty:
@@ -13,12 +20,23 @@ def SecondMenu():
     plan = input("Enter the plan: ")
     while True:
         time = input("Enter the time: ")
-        if time.isdigit():
-            df = pd.read_csv("lists.csv")
+        #check if the time is digit and has length of 4
+        if time.isdigit() and len(time) == 4:
+            #formats the inputted time with string slicing
+            time = f"{time[:2]}:{time[2:]}"
+            #tells python to use the global df variable
+            global df
+            #converts the new plan to DataFrame which can be added to csv
             newplan = pd.DataFrame([{"time": time, "plan": plan}])
+            #merge the old data with new values which carries new plan to the file
             df = pd.concat([df, newplan], ignore_index=False)
+            #save it again to the file
             df.to_csv("lists.csv", index=False)
             break
+        #return error if the inputted time is digits but the length is not 4
+        elif time.isdigit():
+            print("error: use 4 digits of hour and minute (for example 1200 = 12:00)")
+        #return error if the inputted time is not only in digits
         else:
             print("error: use digits for the time")
 
