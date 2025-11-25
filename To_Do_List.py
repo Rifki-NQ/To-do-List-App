@@ -17,6 +17,7 @@ def FirstMenu():
         print(df)
 
 def SecondMenu():
+    df = pd.read_csv("lists.csv")
     plan = input("Enter the plan: ")
     while True:
         time = input("Enter the time: ")
@@ -24,8 +25,6 @@ def SecondMenu():
         if time.isdigit() and len(time) == 4:
             #formats the inputted time with string slicing
             time = f"{time[:2]}:{time[2:]}"
-            #tells python to use the global df variable
-            global df
             #converts the new plan to DataFrame which can be added to csv
             newplan = pd.DataFrame([{"time": time, "plan": plan}])
             #merge the old data with new values which carries new plan to the file
@@ -40,6 +39,16 @@ def SecondMenu():
         else:
             print("error: use digits for the time")
 
+def ThirdMenu():
+    df = pd.read_csv("lists.csv")
+    if df.empty:
+        print("Already empty schedule")
+    else:
+        #rewrite the data to headers only
+        df = pd.DataFrame(columns=["time", "plan"])
+        #save the file
+        df.to_csv("lists.csv", index=False)
+        print("Schedule resetted!")
 #Open main menu
 print("What would you like to do today?")
 print("1. Today's Schedule\n2. Add Schedule\n3. Reset Schedule\n4. Edit Schedule")
@@ -53,6 +62,8 @@ while True:
             FirstMenu()
         elif index == 2:
             SecondMenu()
+        elif index == 3:
+            ThirdMenu()
         else:
             print("error: invalid index number inputted")
     else:
