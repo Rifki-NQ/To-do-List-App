@@ -11,6 +11,8 @@ except:
     df = pd.read_csv("lists.csv")
 
 def FirstMenu():
+    df = pd.read_csv("lists.csv")
+    df.index = df.index + 1
     if df.empty:
         print("Empty plan")
     else:
@@ -53,6 +55,21 @@ def ThirdMenu():
 print("What would you like to do today?")
 print("1. Today's Schedule\n2. Add Schedule\n3. Reset Schedule\n4. Edit Schedule")
 
+def FourthMenu():
+    df = pd.read_csv("lists.csv")
+    df.index = df.index + 1
+    if not df.empty:
+        print(df)
+        while True:
+            index = input("Select which plan you want to edit (by index): ")
+            if index.isdigit() and index > 0 and index >= len(df):
+                print("Success")
+            else:
+                print(f"Enter the correct index (1 to {len(df)})")
+    else:
+        print("Empty plan to edit")
+
+
 #First menu, show today's schedule
 while True:
     index = input("Input by index: ")
@@ -64,6 +81,8 @@ while True:
             SecondMenu()
         elif index == 3:
             ThirdMenu()
+        elif index == 4:
+            FourthMenu()
         else:
             print("error: invalid index number inputted")
     else:
