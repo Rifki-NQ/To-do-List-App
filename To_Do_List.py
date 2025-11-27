@@ -51,9 +51,6 @@ def ThirdMenu():
         #save the file
         df.to_csv("lists.csv", index=False)
         print("Schedule resetted!")
-#Open main menu
-print("What would you like to do today?")
-print("1. Today's Schedule\n2. Add Schedule\n3. Reset Schedule\n4. Edit Schedule")
 
 def FourthMenu():
     df = pd.read_csv("lists.csv")
@@ -61,17 +58,40 @@ def FourthMenu():
     if not df.empty:
         print(df)
         while True:
+            df = pd.read_csv("lists.csv")
             index = input("Select which plan you want to edit (by index): ")
-            if index.isdigit() and index > 0 and index >= len(df):
-                print("Success")
+            if index.isdigit() and int(index) > 0 and int(index) <= len(df):
+                #check the validity of the inputted time then formats it
+                while True:
+                    time = input("Enter the new time: ")
+                    if time.isdigit() and len(time) == 4:
+                        time = f"{time[:2]}:{time[2:]}"
+                        break
+                    #error if the inputted time is less than o and more than 4 digits
+                    elif time.isdigit() and not len(time) == 4:
+                        print("error: use 4 digits of hour and minute (for example 1200 = 12:00)")
+                    #error if the inputted time is not digits only
+                    else:
+                        print("error: use digits for the time")
+                plan = input("Input the plan: ")
+                #change the value of inputted digits with new plan
+                df.loc[int(index) - 1] = [time, plan]
+                df.to_csv("lists.csv", index=False)
+                print("Success!")
+                break
             else:
+                if len(df) == 1:
+                    print("Enter the correct index (1)")
+                elif len(df) == 2:
+                    print("Enter the correct index (1 or 2)")
                 print(f"Enter the correct index (1 to {len(df)})")
     else:
         print("Empty plan to edit")
 
-
-#First menu, show today's schedule
+#Main menu
 while True:
+    print("What would you like to do today?")
+    print("1. Today's Schedule\n2. Add Schedule\n3. Reset Schedule\n4. Edit Schedule")
     index = input("Input by index: ")
     if index.isdigit():
         index = int(index)
@@ -85,5 +105,6 @@ while True:
             FourthMenu()
         else:
             print("error: invalid index number inputted")
+        print("\n")
     else:
         print("error: use the index number to access")
