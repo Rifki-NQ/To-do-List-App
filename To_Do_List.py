@@ -44,13 +44,13 @@ def SecondMenu():
 def ThirdMenu():
     df = pd.read_csv("lists.csv")
     if df.empty:
-        print("Already empty schedule")
+        print("Already empty plan")
     else:
         #rewrite the data to headers only
         df = pd.DataFrame(columns=["time", "plan"])
         #save the file
         df.to_csv("lists.csv", index=False)
-        print("Schedule resetted!")
+        print("plan resetted!")
 
 def FourthMenu():
     df = pd.read_csv("lists.csv")
@@ -91,8 +91,8 @@ def FourthMenu():
 #Main menu
 while True:
     print("What would you like to do today?")
-    print("1. Today's Schedule\n2. Add Schedule\n3. Reset Schedule\n4. Edit Schedule")
-    index = input("Input by index: ")
+    print("1. Today's plan\n2. Add plan\n3. Delete plan\n4. Reset plan\n5. Edit plan")
+    index = input("Input by index (select q for quit): ")
     if index.isdigit():
         index = int(index)
         if index == 1:
@@ -106,5 +106,7 @@ while True:
         else:
             print("error: invalid index number inputted")
         print("\n")
+    elif index.lower() == "q":
+        break
     else:
         print("error: use the index number to access")
