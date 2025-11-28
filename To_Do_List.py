@@ -1,17 +1,20 @@
 import os
 import pandas as pd
 
-#try reading the csv
-try:
-    df = pd.read_csv("lists.csv")
-#add the headers if the file is completely empty
-except:
-    df = pd.DataFrame(columns=["time", "plan"])
-    df.to_csv("lists.csv", index=False)
-    df = pd.read_csv("lists.csv")
+def read():
+    #try reading the csv
+    try:
+        df = pd.read_csv("lists.csv")
+        return df
+    #add the headers if the file is completely empty
+    except:
+        df = pd.DataFrame(columns=["time", "plan"])
+        df.to_csv("lists.csv", index=False)
+        df = pd.read_csv("lists.csv")
+        return df
 
 def FirstMenu():
-    df = pd.read_csv("lists.csv")
+    df = read()
     df.index = df.index + 1
     if df.empty:
         print("Empty plan")
@@ -19,7 +22,7 @@ def FirstMenu():
         print(df)
 
 def SecondMenu():
-    df = pd.read_csv("lists.csv")
+    df = read()
     plan = input("Enter the plan: ")
     while True:
         time = input("Enter the time: ")
@@ -42,7 +45,13 @@ def SecondMenu():
             print("error: use digits for the time")
 
 def ThirdMenu():
-    df = pd.read_csv("lists.csv")
+    df = read()
+    df.index = df.index + 1
+    print(df)
+    index = input("Enter which plan to delete (by index): ")
+
+def FourthMenu():
+    df = read()
     if df.empty:
         print("Already empty plan")
     else:
@@ -52,8 +61,8 @@ def ThirdMenu():
         df.to_csv("lists.csv", index=False)
         print("plan resetted!")
 
-def FourthMenu():
-    df = pd.read_csv("lists.csv")
+def FifthMenu():
+    df = read()
     df.index = df.index + 1
     if not df.empty:
         print(df)
@@ -103,6 +112,8 @@ while True:
             ThirdMenu()
         elif index == 4:
             FourthMenu()
+        elif index == 5:
+            FifthMenu()
         else:
             print("error: invalid index number inputted")
         print("\n")
