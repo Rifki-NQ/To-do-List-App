@@ -63,6 +63,17 @@ def ThirdMenu():
         return
     showplan()
     index = input("- Enter which plan to delete (by index): ")
+    if index.isdigit() and int(index) > 0 and int(index) <= len(df):
+        print("oke")
+    elif index.isdigit():
+        if len(df) == 1:
+            print("-- error: enter the correct index (1)")
+        elif len(df) == 2:
+            print("-- error: enter the correct index (1 or 2)")
+        else:
+            print(f"-- error: enter the correct index (1 to {len(df)})")
+    else:
+        print("-- error: use digits for the index!")
 
 #Reset all plan
 def FourthMenu():
@@ -103,13 +114,15 @@ def FifthMenu():
                 df.to_csv("lists.csv", index=False)
                 print("- Success!")
                 break
-            else:
+            elif index.isdigit():
                 if len(df) == 1:
                     print("-- error: enter the correct index (1)")
                 elif len(df) == 2:
                     print("-- error: enter the correct index (1 or 2)")
                 else:
                     print(f"-- error: enter the correct index (1 to {len(df)})")
+            else:
+                print("-- error: use digits for the index!")
     else:
         print("- Empty plan to edit!")
 
