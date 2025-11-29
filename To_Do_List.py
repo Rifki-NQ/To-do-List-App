@@ -117,7 +117,7 @@ def FifthMenu():
 while True:
     print("What would you like to do today?")
     print("1. Today's plan\n2. Add plan\n3. Delete plan\n4. Reset plan\n5. Edit plan")
-    index = input("Input by index (select q for quit): ")
+    index = input("- Input by index (select q for quit): ")
     if index.isdigit():
         index = int(index)
         if index == 1:
@@ -131,9 +131,9 @@ while True:
         elif index == 5:
             FifthMenu()
         else:
-            print("error: invalid index number inputted")
+            print("-- error: invalid index number inputted")
         print("<-------------------------------------------->")
     elif index.lower() == "q":
         break
     else:
-        print("error: use the index number to access")
+        print("-- error: use the index number to access")
