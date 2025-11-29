@@ -99,7 +99,7 @@ def FifthMenu():
     if not df.empty:
         showplan()
         while True:
-            df = pd.read_csv("lists.csv")
+            df = read()
             index = input("- Select which plan you want to edit (by index): ")
             if index.isdigit() and int(index) > 0 and int(index) <= len(df):
                 #check the validity of the inputted time then formats it
