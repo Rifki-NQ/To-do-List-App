@@ -58,13 +58,19 @@ def SecondMenu():
 #Delete certain plan
 def ThirdMenu():
     df = read()
+    #stop the function here if the plan is empty
     if df.empty:
         print("- Empty plan to delete!")
         return
     showplan()
     index = input("- Enter which plan to delete (by index): ")
     if index.isdigit() and int(index) > 0 and int(index) <= len(df):
-        print("oke")
+        #reset index of plans
+        df.reset_index(drop=True, inplace=True)
+        #delete plan with resetted index
+        df.drop(index=int(index)-1, inplace=True)
+        df.to_csv("lists.csv", index=False)
+        print(f"- Plan no. {index} deleted!")
     elif index.isdigit():
         if len(df) == 1:
             print("-- error: enter the correct index (1)")
