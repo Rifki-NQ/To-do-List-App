@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 
+#helper function for reading the file
 def read():
     #try reading the csv
     try:
@@ -13,14 +14,23 @@ def read():
         df = pd.read_csv("lists.csv")
         return df
 
+#helper function for reading the plan
+def showplan():
+    df = read()
+    df.index = [f"Plan {i + 1}. " for i in range(len(df))]
+    print("<------------------------>")
+    print(df)
+    print("<------------------------>")
+
+#Show today's plan
 def FirstMenu():
     df = read()
-    df.index = df.index + 1
     if df.empty:
         print("- Empty plan for today")
     else:
-        print(df)
+        showplan()
 
+#Add new plan
 def SecondMenu():
     df = read()
     plan = input("- Enter the plan: ")
@@ -45,16 +55,16 @@ def SecondMenu():
         else:
             print("-- error: use digits for the time")
 
+#Delete certain plan
 def ThirdMenu():
     df = read()
     if df.empty:
         print("- Empty plan to delete!")
         return
-    df.index = df.index + 1
-    print(df)
+    showplan()
     index = input("- Enter which plan to delete (by index): ")
 
-
+#Reset all plan
 def FourthMenu():
     df = read()
     if df.empty:
@@ -66,11 +76,11 @@ def FourthMenu():
         df.to_csv("lists.csv", index=False)
         print("- plan resetted!")
 
+#Edit certain plan
 def FifthMenu():
     df = read()
-    df.index = df.index + 1
     if not df.empty:
-        print(df)
+        showplan()
         while True:
             df = pd.read_csv("lists.csv")
             index = input("- Select which plan you want to edit (by index): ")
@@ -122,7 +132,7 @@ while True:
             FifthMenu()
         else:
             print("error: invalid index number inputted")
-        print("--------------------------------------------")
+        print("<-------------------------------------------->")
     elif index.lower() == "q":
         break
     else:
