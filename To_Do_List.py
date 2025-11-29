@@ -17,15 +17,15 @@ def FirstMenu():
     df = read()
     df.index = df.index + 1
     if df.empty:
-        print("Empty plan")
+        print("- Empty plan for today")
     else:
         print(df)
 
 def SecondMenu():
     df = read()
-    plan = input("Enter the plan: ")
+    plan = input("- Enter the plan: ")
     while True:
-        time = input("Enter the time: ")
+        time = input("- Enter the time: ")
         #check if the time is digit and has length of 4
         if time.isdigit() and len(time) == 4:
             #formats the inputted time with string slicing
@@ -36,30 +36,35 @@ def SecondMenu():
             df = pd.concat([df, newplan], ignore_index=False)
             #save it again to the file
             df.to_csv("lists.csv", index=False)
+            print("- New plan created! ")
             break
         #return error if the inputted time is digits but the length is not 4
         elif time.isdigit():
-            print("error: use 4 digits of hour and minute (for example 1200 = 12:00)")
+            print("-- error: use 4 digits of hour and minute (for example 1200 = 12:00)")
         #return error if the inputted time is not only in digits
         else:
-            print("error: use digits for the time")
+            print("-- error: use digits for the time")
 
 def ThirdMenu():
     df = read()
+    if df.empty:
+        print("- Empty plan to delete!")
+        return
     df.index = df.index + 1
     print(df)
-    index = input("Enter which plan to delete (by index): ")
+    index = input("- Enter which plan to delete (by index): ")
+
 
 def FourthMenu():
     df = read()
     if df.empty:
-        print("Already empty plan")
+        print("- Already empty plan!")
     else:
         #rewrite the data to headers only
         df = pd.DataFrame(columns=["time", "plan"])
         #save the file
         df.to_csv("lists.csv", index=False)
-        print("plan resetted!")
+        print("- plan resetted!")
 
 def FifthMenu():
     df = read()
@@ -68,34 +73,35 @@ def FifthMenu():
         print(df)
         while True:
             df = pd.read_csv("lists.csv")
-            index = input("Select which plan you want to edit (by index): ")
+            index = input("- Select which plan you want to edit (by index): ")
             if index.isdigit() and int(index) > 0 and int(index) <= len(df):
                 #check the validity of the inputted time then formats it
                 while True:
-                    time = input("Enter the new time: ")
+                    time = input("- Enter the new time: ")
                     if time.isdigit() and len(time) == 4:
                         time = f"{time[:2]}:{time[2:]}"
                         break
                     #error if the inputted time is less than o and more than 4 digits
                     elif time.isdigit() and not len(time) == 4:
-                        print("error: use 4 digits of hour and minute (for example 1200 = 12:00)")
+                        print("-- error: use 4 digits of hour and minute (for example 1200 = 12:00)")
                     #error if the inputted time is not digits only
                     else:
-                        print("error: use digits for the time")
-                plan = input("Input the plan: ")
+                        print("-- error: use digits for the time")
+                plan = input("- Input the plan: ")
                 #change the value of inputted digits with new plan
                 df.loc[int(index) - 1] = [time, plan]
                 df.to_csv("lists.csv", index=False)
-                print("Success!")
+                print("- Success!")
                 break
             else:
                 if len(df) == 1:
-                    print("Enter the correct index (1)")
+                    print("-- error: enter the correct index (1)")
                 elif len(df) == 2:
-                    print("Enter the correct index (1 or 2)")
-                print(f"Enter the correct index (1 to {len(df)})")
+                    print("-- error: enter the correct index (1 or 2)")
+                else:
+                    print(f"-- error: enter the correct index (1 to {len(df)})")
     else:
-        print("Empty plan to edit")
+        print("- Empty plan to edit!")
 
 #Main menu
 while True:
@@ -116,7 +122,7 @@ while True:
             FifthMenu()
         else:
             print("error: invalid index number inputted")
-        print("\n")
+        print("--------------------------------------------")
     elif index.lower() == "q":
         break
     else:
